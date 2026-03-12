@@ -1,17 +1,18 @@
-# 🏓 DinkStat — Pickleball Match Tracker & LP Rankings
+# DinkStat — Pickleball Match Tracker & LP Rankings
 
-A competitive pickleball tracking app with a League-style LP ranking system.
+A pickleball tracking app with a League-style LP ranking system.
 Built with **Next.js**, **Firebase**, **Recharts**, and **Tailwind CSS**.
 
 ## Features
 
 - **LP Ranking System** — League-style LP that scales by margin of victory with upset bonuses
-- **Tier System** — Bronze → Silver → Gold → Platinum → Diamond
+- **Tier System** — Bronze → Silver → Gold → Platinum → Diamond → MAYBE HIGHER IN THE FUTURE
 - **Registered Players Only** — Opponents must have an account to log matches
 - **Doubles Support** — Log 2v2 matches with partner and opponent team names
 - **Stats Dashboard** — LP trend, win rate, score charts, W/L split
 - **Leaderboard** — Global player rankings by LP
-- **Auth System** — Sign up / sign in (demo mode included, Firebase Auth ready)
+- **Auth System** — Firebase Auth with email/password registration and login
+- **Score Validation** — Enforces pickleball rules (game to 11, win by 2)
 
 ## Tech Stack
 
@@ -22,7 +23,6 @@ Built with **Next.js**, **Firebase**, **Recharts**, and **Tailwind CSS**.
 | Auth      | Firebase Authentication |
 | Styling   | Tailwind CSS            |
 | Charts    | Recharts                |
-| Deploy    | Vercel                  |
 
 ---
 
@@ -38,7 +38,6 @@ You need **Node.js** installed. If you don't have it:
 4. Open your terminal and verify: `node --version` (should show v18 or higher)
 
 ### Steps
-
 ```bash
 # 1. Open terminal and navigate to the project folder
 cd dinkstat
@@ -51,8 +50,8 @@ npm run dev
 ```
 
 4. Open your browser and go to **http://localhost:3000**
-5. Click **"Try Demo (Jackson Lin)"** to explore with sample data
-6. Or click **Register** to create a new account
+5. Click **Register** to create a new account
+6. Have a friend register too, then log matches against each other
 
 ### What you'll see
 
@@ -64,7 +63,6 @@ npm run dev
 ---
 
 ## Project Structure
-
 ```
 dinkstat/
 ├── app/
@@ -119,9 +117,7 @@ Everyone starts at **0 LP**. Points gained depend on margin of victory:
 
 ---
 
-## Adding Firebase (for real users)
-
-The app works without Firebase using demo data. To make it real:
+## Firebase Setup
 
 ### 1. Create a Firebase Project
 
@@ -131,15 +127,14 @@ The app works without Firebase using demo data. To make it real:
 
 ### 2. Enable Authentication
 
-1. In Firebase sidebar → **Build** → **Authentication**
+1. In Firebase sidebar → **Authentication**
 2. Click **Get started**
 3. Enable **Email/Password** provider
-4. (Optional) Enable **Google** provider
 
 ### 3. Create Firestore Database
 
-1. Sidebar → **Build** → **Firestore Database**
-2. Click **Create database** → **Start in test mode**
+1. Sidebar → **Firestore Database**
+2. Click **Create database** → **Standard edition** → **Start in test mode**
 3. Select nearest region → Enable
 
 ### 4. Get Config Values
@@ -150,59 +145,15 @@ The app works without Firebase using demo data. To make it real:
 4. Copy the config values
 
 ### 5. Add to Project
-
 ```bash
 cp .env.local.example .env.local
 ```
 
 Edit `.env.local` with your Firebase values:
-
 ```
-NEXT_PUBLIC_FIREBASE_API_KEY=AIzaSy...
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=dinkstat-xxxxx.firebaseapp.com
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=dinkstat-xxxxx
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=dinkstat-xxxxx.appspot.com
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=123456789
-NEXT_PUBLIC_FIREBASE_APP_ID=1:123456789:web:abcdef
-```
-
----
-
-## Deploy to Vercel
-
-### 1. Push to GitHub
-
-```bash
-git init
-git add .
-git commit -m "DinkStat: pickleball LP tracker"
-
-# Create repo at github.com/new, then:
-git remote add origin https://github.com/YOUR_USERNAME/dinkstat.git
-git branch -M main
-git push -u origin main
-```
-
-### 2. Deploy
-
-1. Go to [vercel.com](https://vercel.com) → Sign in with GitHub
-2. Click **Add New** → **Project**
-3. Import your `dinkstat` repo
-4. Add your Firebase environment variables
-5. Click **Deploy**
-
-Your app will be live at `https://dinkstat.vercel.app`!
-
----
-
-## Resume Description
-
-> **DinkStat — Pickleball Match Tracker & LP Rankings** | Next.js, Firebase, Recharts, Tailwind CSS
->
-> Built a full-stack competitive pickleball tracking platform with a custom League-style LP ranking algorithm that calculates point gains based on score margins and opponent rankings. Implemented user registration with Firebase Auth, real-time data persistence with Firestore, and player validation ensuring all match participants are registered users. Designed an interactive analytics dashboard with Recharts and deployed on Vercel with CI/CD from GitHub.
-
----
-
-## License
-
-MIT
+NEXT_PUBLIC_FIREBASE_API_KEY=your_key_here
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project.firebasestorage.app
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
